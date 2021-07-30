@@ -1,15 +1,17 @@
 <template>
-  <transition-group tag="div" class="row justify-content-center" name="fade" appear mode="out-in">
-    <b-col class="mt-3" cols="12" md="6" v-for="project in projects" :key="project.id">
-      <project :project="project" />
-    </b-col>
+  <div>
+    <transition-group tag="div" class="row justify-content-center" name="fade" appear mode="out-in">
+      <b-col class="mt-3" cols="12" md="6" v-for="project in projects" :key="project.id">
+        <project :project="project" />
+      </b-col>
+    </transition-group>
     <infinite-loading
       key="spiner"
       class="my-5"
       spinner="waveDots"
       @infinite="infiniteScroll"
     />
-  </transition-group>
+  </div>
 
 </template>
 
