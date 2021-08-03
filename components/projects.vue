@@ -1,16 +1,16 @@
 <template>
   <div>
     <transition-group tag="div" class="row justify-content-center" name="fade" appear mode="out-in">
-      <b-col class="mt-3" cols="12" md="6" v-for="project in projects" :key="project.id">
+      <div class="mt-3 col-12 col-md-6" v-for="project in projects" :key="project.id">
         <project :project="project" />
-      </b-col>
+      </div>
     </transition-group>
-    <infinite-loading
-      key="spiner"
-      class="my-5"
-      spinner="waveDots"
-      @infinite="infiniteScroll"
-    />
+    <no-ssr>
+      <infinite-loading
+        class="my-5"
+        @infinite="infiniteScroll"
+      />
+    </no-ssr>
   </div>
 
 </template>
@@ -31,35 +31,24 @@ export default {
   },
 
   methods: {
-    infiniteScroll($state) {
-      setTimeout(() => {
-        this.page++
-        this.$axios.$get("https://jsonplaceholder.typicode.com/posts?_page=" + this.page)
-          .then(response => {
-            response.forEach(item => this.projects.push(item))
-            if (response.length > 1)
-              $state.loaded()
-            else {
-              $state.complete()
-            }
-          })
-          .catch(error => {
-            console.log(error.response.data)
-            $state.error()
-          })
-      }, 1000)
+    async infiniteScroll($state) {
+
+      await this.$axios.$get("https://jsonplaceholder.typicode.com/posts?_page=" + this.page)
+        .then(response => {
+          response.forEach(item => this.projects.push(item))
+          if (response.length > 1) {
+            $state.loaded()
+            this.page++
+          } else {
+            $state.complete()
+          }
+        })
+        .catch(error => {
+          console.log(error.response.data)
+          $state.error()
+        })
     }
-  },
-created () {
-  this.$axios.$get("https://jsonplaceholder.typicode.com/posts?_page=" + this.page)
-    .then(response => {
-      response.forEach(item => this.projects.push(item))
-    })
-    .catch(error => {
-      console.log(error.response.data)
-    })
-  },
-  fetchOnServer: false,
+  }
 }
 </script>
 

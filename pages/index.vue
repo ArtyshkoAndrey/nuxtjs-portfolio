@@ -1,8 +1,8 @@
 <template>
-  <b-container>
+  <div class="container">
     <profile></profile>
     <projects></projects>
-  </b-container>
+  </div>
 </template>
 
 <script>

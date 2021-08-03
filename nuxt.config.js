@@ -17,13 +17,17 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
+
   css: [
-    'animate.css/animate.compat.css'
+    'bootstrap/dist/css/bootstrap.css',
+    'animate.css/animate.compat.css',
+    '~/assets/scss/index.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/infiniteloading', ssr: false }
+    { src: '@/plugins/infiniteloading', ssr: false },
+    {src: '~/plugins/bootstrap.js', ssr: false}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -36,10 +40,15 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/bootstrap
-    'bootstrap-vue/nuxt',
     '@nuxtjs/axios',
-    'nuxt-webfontloader'
+    'nuxt-webfontloader',
+    '@nuxtjs/style-resources'
   ],
+  styleResources: {
+    scss: [
+      '~/assets/css/index.scss',
+    ]
+  },
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
   },
@@ -51,7 +60,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-
+    vendor: ['~/plugins/infiniteloading.js']
   },
 
   env: {
